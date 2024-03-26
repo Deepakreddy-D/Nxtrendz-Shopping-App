@@ -1,8 +1,9 @@
 import {Component} from 'react'
+import {Link, withRouter} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import {BsPlusSquare, BsDashSquare, BsArrowLeftShort} from 'react-icons/bs'
-import {Link} from 'react-router-dom'
+import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
+
 import CartContext from '../../context/CartContext'
 
 import Header from '../Header'
@@ -27,6 +28,16 @@ class ProductItemDetails extends Component {
 
   componentDidMount() {
     this.getProductData()
+  }
+
+  componentDidUpdate(prevProps) {
+    const {match} = this.props
+    const {params} = match
+    const {id: currentId} = params
+
+    if (prevProps.match.params.id !== currentId) {
+      this.getProductData()
+    }
   }
 
   getFormattedData = data => ({
@@ -78,7 +89,7 @@ class ProductItemDetails extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-details-loader-container">
+    <div className="products-details-loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )
@@ -91,9 +102,11 @@ class ProductItemDetails extends Component {
         className="error-view-image"
       />
       <h1 className="product-not-found-heading">Product Not Found</h1>
-      <button type="button" className="button">
-        Continue Shopping
-      </button>
+      <Link to="/products">
+        <button type="button" className="button">
+          Continue Shopping
+        </button>
+      </Link>
     </div>
   )
 
@@ -129,11 +142,6 @@ class ProductItemDetails extends Component {
 
         return (
           <div className="product-details-success-view">
-            <Link to="/products">
-              <button type="button" className="quantity-controller-button">
-                <BsArrowLeftShort className="" size={50} />
-              </button>
-            </Link>
             <div className="product-details-container">
               <img src={imageUrl} alt="product" className="product-image" />
               <div className="product">
@@ -165,6 +173,7 @@ class ProductItemDetails extends Component {
                     type="button"
                     className="quantity-controller-button"
                     onClick={this.onDecrementQuantity}
+                    data-testid="minus"
                   >
                     <BsDashSquare className="quantity-controller-icon" />
                   </button>
@@ -173,6 +182,7 @@ class ProductItemDetails extends Component {
                     type="button"
                     className="quantity-controller-button"
                     onClick={this.onIncrementQuantity}
+                    data-testid="plus"
                   >
                     <BsPlusSquare className="quantity-controller-icon" />
                   </button>
@@ -221,6 +231,22 @@ class ProductItemDetails extends Component {
       <>
         <Header />
         <div className="product-item-details-container">
+          <Link to="/products" className="back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="26"
+              height="36"
+              fill="currentColor"
+              className="bi bi-arrow-left-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
+              />
+            </svg>
+          </Link>
+
           {this.renderProductDetails()}
         </div>
       </>
@@ -228,4 +254,4 @@ class ProductItemDetails extends Component {
   }
 }
 
-export default ProductItemDetails
+export default withRouter(ProductItemDetails)
