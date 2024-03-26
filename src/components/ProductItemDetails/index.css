@@ -280,3 +280,8 @@
     font-size: 48px;
   }
 }
+
+.back {
+  font-size: 1em;
+  margin-right: 10px;
+}
