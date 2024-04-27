@@ -77,7 +77,7 @@ const CartSummary = () => {
                   <button className="close" onClick={close} type="button">
                     &times;
                   </button>
-                  <div className="header">Payment</div>
+
                   <div className="content">
                     <h1>Payment options</h1>
                     <p>Total Items: {cartList.length}</p>
