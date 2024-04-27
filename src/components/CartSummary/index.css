@@ -73,6 +73,8 @@
 
 .modal {
   background-color: bisque;
+  padding: 10px;
+  border-radius: 8px;
 }
 .successMsg {
   background-color: #b4f0c7;
@@ -81,4 +83,8 @@
 }
 .success-order {
   color: #171f46;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
 }
